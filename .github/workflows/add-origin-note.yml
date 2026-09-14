@@ -1,0 +1,35 @@
+name: Add origin note
+
+on:
+  push:
+    branches: [didas/accelerate-upstream-attribution]
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "danielsaeuberli"
+          git config user.email "danielsaeuberli@users.noreply.github.com"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('README.md')
+          s=p.read_text()
+          marker='# Industry Function Graph\n'
+          block='''# Industry Function Graph\n\n> **Origin and attribution**  \n> Developed and contributed by **Accelerate GmbH** and published by DIDAS as an open-source ecosystem contribution.  \n> Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph  \n> DIDAS publication: https://github.com/DIDAS-swiss/industry-function-graph\n'''
+          if 'Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph' not in s:
+              s=s.replace(marker,block,1)
+          p.write_text(s)
+          PY
+          rm .github/workflows/add-origin-note.yml
+          git add -A
+          git commit -m "Add Accelerate origin note to README"
+          git push origin HEAD:didas/accelerate-upstream-attribution
