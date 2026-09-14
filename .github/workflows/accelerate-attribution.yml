@@ -1,0 +1,54 @@
+name: Prepare Accelerate upstream attribution
+
+on:
+  push:
+    branches: [didas/accelerate-upstream-attribution]
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update provenance and licensing
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "danielsaeuberli"
+          git config user.email "danielsaeuberli@users.noreply.github.com"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('LICENSE')
+          s = p.read_text().replace('Copyright (c) 2026 Daniel Saeuberli', 'Copyright (c) 2026 Accelerate GmbH')
+          p.write_text(s)
+
+          p = Path('LICENSE-CONTENT')
+          s = p.read_text()
+          s = s.replace('Attribution: "industry-function-graph, Daniel Saeuberli,\nhttps://github.com/DIDAS-swiss/industry-function-graph"',
+                        'Attribution: "Industry Function Graph, Accelerate GmbH, contributed to DIDAS,\nhttps://github.com/Accelerate-GmbH/industry-function-graph"')
+          p.write_text(s)
+
+          p = Path('README.md')
+          s = p.read_text()
+          marker = '# industry-function-graph\n'
+          block = '''# industry-function-graph\n\n> **Origin and attribution**  \n> Developed and contributed by **Accelerate GmbH** and published by DIDAS as an open-source ecosystem contribution.  \n> Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph  \n> DIDAS publication: https://github.com/DIDAS-swiss/industry-function-graph\n'''
+          if marker in s and 'Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph' not in s:
+              s = s.replace(marker, block, 1)
+          p.write_text(s)
+
+          p = Path('NOTICE.md')
+          s = p.read_text()
+          notice = '''# Origin and attribution\n\nThe original work and implementation in this repository are © 2026 Accelerate GmbH and were contributed to the DIDAS ecosystem. Third-party classifications, standards, specifications and referenced materials remain subject to their respective rights and terms.\n\nCanonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph\nDIDAS publication: https://github.com/DIDAS-swiss/industry-function-graph\n\n'''
+          if not s.startswith('# Origin and attribution'):
+              s = notice + s
+          p.write_text(s)
+          PY
+          rm .github/workflows/accelerate-attribution.yml
+          git add -A
+          git commit -m "Attribute upstream work to Accelerate GmbH"
+          git push origin HEAD:didas/accelerate-upstream-attribution
