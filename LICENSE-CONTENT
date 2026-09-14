@@ -9,8 +9,8 @@ The data files are treated as content, not software: they are a
 vocabulary and a set of editorial mappings, and the creative work in them
 is the mapping itself.
 
-Attribution: "industry-function-graph, Daniel Saeuberli,
-https://github.com/DIDAS-swiss/industry-function-graph"
+Attribution: "Industry Function Graph, Accelerate GmbH, contributed to DIDAS,
+https://github.com/Accelerate-GmbH/industry-function-graph"
 
 The software components of this repository — the build and validation
 scripts in build/ and the GitHub Actions workflows in .github/workflows/

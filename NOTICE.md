@@ -1,3 +1,10 @@
+# Origin and attribution
+
+The original work and implementation in this repository are © 2026 Accelerate GmbH and were contributed to the DIDAS ecosystem. Third-party classifications, standards, specifications and referenced materials remain subject to their respective rights and terms.
+
+Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph
+DIDAS publication: https://github.com/DIDAS-swiss/industry-function-graph
+
 # Third-Party Content Notices
 
 This repository's own content is licensed [CC BY 4.0](LICENSE-CONTENT) and its

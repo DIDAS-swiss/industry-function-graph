@@ -1,5 +1,10 @@
 # Industry Function Graph
 
+> **Origin and attribution**  
+> Developed and contributed by **Accelerate GmbH** and published by DIDAS as an open-source ecosystem contribution.  
+> Canonical upstream: https://github.com/Accelerate-GmbH/industry-function-graph  
+> DIDAS publication: https://github.com/DIDAS-swiss/industry-function-graph
+
 **👉 https://didas-swiss.github.io/industry-function-graph/** — the graph as a
 page: the three layers, how composition is derived, every use case pattern with
 its interface, the flows that realise them, and the gap register.
